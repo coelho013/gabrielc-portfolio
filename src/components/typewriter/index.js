@@ -24,5 +24,7 @@ export default function Typewriter({ text }) {
       }
     }, [text, index]);
   
-    return <div style={{ whiteSpace: 'pre-line' }}>{displayText}</div>;
+    return (
+      <div style={{ whiteSpace: 'pre-line' }}>{displayText}</div>
+    )
   };

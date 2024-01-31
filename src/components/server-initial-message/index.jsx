@@ -10,7 +10,7 @@ export default function ServerMessage() {
 
     return(
         <div className="message-initial-box">
-            <p className="message-initial-server" style={{ whiteSpace: 'pre-line' }}> <Typewriter text={message}/></p>
+            <p className="message-initial-server" style={{ whiteSpace: 'pre-line' }}>{message}</p>
         </div>
     )
 }
