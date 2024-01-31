@@ -1,0 +1,9 @@
+.message-client-box {
+   /* background-color: brown; */
+    display: flex;
+    align-items:baseline
+}
+
+.message-client {
+    
+}
