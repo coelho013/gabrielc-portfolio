@@ -2,9 +2,8 @@
    /* background-color: brown; */
     display: flex;
     align-items:baseline;
-    
+    padding: 0;
 }
 
 .message-client {
-    position: absolute;
 }

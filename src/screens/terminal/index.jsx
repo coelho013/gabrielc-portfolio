@@ -3,6 +3,8 @@ import './index.css'
 import ServerMessage from "../../components/server-initial-message";
 import ClientMessage from "../../components/client-message";
 import ClientOldMessage from "../../components/client-old-message";
+import handleVerifyMessage from "../../programs/handleVerifyMessage";
+import handleTabAction from "../../programs/handleTabAction";
 
 export default function Terminal() {
     const [message, setMessage] = useState('C:\\>');
@@ -108,92 +110,12 @@ export default function Terminal() {
 
     const detectEnter = (event) => {
         if (event.keyCode === 13) {
-            handleVerifyMessage();
-            setActualIndex(0);
-            setInitTab(0);
-            setOriginalInputValue('');
+            handleVerifyMessage(inputValue, setOldMessage, help, setDir, oldDir, setMessage, oldPath, dir, setOldDir, setOldPath, message, setInputValue, setOriginalInputValue, setInitTab, setActualIndex);
         } else if (event.keyCode === 9) {
             event.preventDefault();
-            handleTabAction();
+            handleTabAction(setInputValue, inputValue, originalInputValue, dir, dir.length, initTab, actualIndex, setActualIndex, setInitTab);
         }
     }
-
-    const handleTabAction = () => {
-        setInputValue(() => 
-        initTab === 1 ? originalInputValue + dir[handleIndexDir()].name : inputValue.endsWith(' ')  ? originalInputValue + dir[handleIndexDir()].name :  inputValue
-        );
-    }
-
-    const handleIndexDir = () => {
-        const newActualIndex = actualIndex === dir.length - 1 ? 0 : actualIndex + 1;
-        setActualIndex(newActualIndex);
-        setInitTab(1);
-
-        return newActualIndex;
-    }   
-
-    const handleVerifyMessage = () => {
-            const inputValueClear = inputValue.toLowerCase().trim();
-        
-            if (inputValueClear === 'cls') {
-                setOldMessage('');
-            }else if (inputValueClear === 'help') {
-                const helpResponse = help.map(element => {
-                    const quantitySpaces = (10 - element.name.length)
-                    const spaces = ' '.repeat(quantitySpaces);
-                    return `${element.name}${spaces}${element.description}`
-                }).join('\n')
-                handleOldMessage(helpResponse);
-            }else if (inputValueClear === 'dir') {
-                const dirResponse = dir.map(element => {
-                    return `01/01/2024 00:00 PM    ${element.type}          ${element.name}`
-                }).join('\n');
-                handleOldMessage(dirResponse);
-            }else if (inputValueClear === 'cd..') {
-                setDir(oldDir);
-                setMessage(oldPath);
-                handleOldMessage('');
-            }else if (inputValueClear.startsWith('cd')) {
-                handleVerifyDir(inputValueClear);
-                handleOldMessage('');
-            }else {
-                handleOldMessage('');
-            }
-            setInputValue('');
-    }
-
-    const handleVerifyDir = (value) => {
-        const newValue = value.replace('cd', '').trim();
-
-        const matchingElement = dir.find(element => newValue === element.name);
-
-        console.log(newValue, 'new value')
-        
-        if (matchingElement) {
-            if (matchingElement.type === '<DIR>') {
-                setOldPath(message);
-                setMessage((prevMessage) => prevMessage === 'C:\\>' ? 'C:\\' + newValue + '>' :  'C:\\' + prevMessage + '\\' + newValue + '>');
-                setOldDir(dir);
-                setDir(matchingElement.subdirectory)
-            }
-        }
-    }
-
-    const handleOldMessage = (response) => {
-        if (response === '') {
-            setOldMessage((prevOldMessage) =>
-            prevOldMessage === '' ? message + inputValue : prevOldMessage + '\n\n' + message + inputValue
-            ); 
-        } else {
-            setOldMessage((prevOldMessage) =>
-            prevOldMessage === '' ? message + inputValue + '\n' + response: prevOldMessage + '\n\n' + message + inputValue + '\n' + response
-            );
-        }  
-    }
-
-    useEffect(() => {
-        console.log(oldPath, 'old path');
-      }, [oldPath]);
 
     return(
         <div className='container'>

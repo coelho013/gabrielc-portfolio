@@ -19,7 +19,7 @@ p {
   font-size: 1em;
   margin-left: 10px;
   margin-top: 2px;
-  overflow-wrap: break-word;
+  overflow-wrap: break-word; 
 }
 
 input {
@@ -29,6 +29,4 @@ input {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1em;
   outline: none;
-  position: relative;
-  resize: both
 }
