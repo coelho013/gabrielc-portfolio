@@ -8,7 +8,7 @@ export default function ClientMessage({ message, handleChange, inputValue, detec
     
     return(
     <div className="message-client-box">
-            <p className="message-client" style={{ whiteSpace: 'pre-line' }}>{message}</p>
+            <p className="message-client" >{message}</p>
         <ClientInput handleChange={handleChange} inputValue={inputValue} detectEnter={detectEnter}/>
     </div>
     )

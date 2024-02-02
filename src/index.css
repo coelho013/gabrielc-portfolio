@@ -23,13 +23,12 @@ p {
 }
 
 input {
-  background: transparent;
+  /* background: transparent; */
   border: none;
   color: #abb2bf;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1em;
   outline: none;
   position: relative;
-  width: 100%;
-  overflow-wrap: break-word;
+  resize: both
 }

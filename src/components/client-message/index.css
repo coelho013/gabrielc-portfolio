@@ -1,9 +1,10 @@
 .message-client-box {
    /* background-color: brown; */
     display: flex;
-    align-items:baseline
+    align-items:baseline;
+    
 }
 
 .message-client {
-    
+    position: absolute;
 }

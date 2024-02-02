@@ -44,7 +44,14 @@ export default function Terminal() {
                 name: 'projects',
                 type: '<DIR>',
                 content: '',
-                subdirectory : [{}]
+                subdirectory : [
+                    {
+                        name: 'personal-portfolio',
+                        type: '<DIR>',
+                        content: '',
+                        subdirectory : [{}]
+                    }
+                ]
             },
             {
                 name: 'digital-badges',
