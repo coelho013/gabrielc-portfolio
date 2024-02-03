@@ -10,10 +10,11 @@ export default function Terminal() {
     const [message, setMessage] = useState('C:\\>');
     const [oldPath, setOldPath] = useState('');
     const [oldMessage, setOldMessage] = useState('');
-    const [inputValue, setInputValue] = useState('');
+    const [textareaValue, setTextareaValue] = useState('C:\\>');
+    const [textareaLenght, setTextareaLenght] = useState(5);
     const [actualIndex, setActualIndex] = useState(0);
     const [initTab, setInitTab] = useState(0);
-    const [originalInputValue, setOriginalInputValue] = useState('');
+    const [originaltextareaValue, setOriginaltextareaValue] = useState('');
     const [oldDir, setOldDir] = useState([])
     const [dir, setDir] = useState(
         [
@@ -101,19 +102,49 @@ export default function Terminal() {
 
 
     const handleChange = (value) => {
-        setInputValue(value.target.value);
-        setOriginalInputValue(value.target.value);
+        setTextareaValue(value.target.value);
+        setOriginaltextareaValue(value.target.value);
         if (value.target.value.endsWith('')) {
             setInitTab(0);
         }
     }
 
-    const detectEnter = (event) => {
-        if (event.keyCode === 13) {
-            handleVerifyMessage(inputValue, setOldMessage, help, setDir, oldDir, setMessage, oldPath, dir, setOldDir, setOldPath, message, setInputValue, setOriginalInputValue, setInitTab, setActualIndex);
-        } else if (event.keyCode === 9) {
+    const detectKey = (event) => {
+        if (event.key === 'Enter') {
+            handleVerifyMessage(
+                textareaValue,
+                setOldMessage,
+                help,
+                setDir,
+                oldDir,
+                setMessage,
+                oldPath,
+                dir,
+                setOldDir,
+                setOldPath,
+                message,
+                setTextareaValue,
+                setOriginaltextareaValue,
+                setInitTab,
+                setActualIndex
+            );
+        } else if (event.key === 'Tab') {
             event.preventDefault();
-            handleTabAction(setInputValue, inputValue, originalInputValue, dir, dir.length, initTab, actualIndex, setActualIndex, setInitTab);
+            handleTabAction(
+                setTextareaValue,
+                textareaValue,
+                originaltextareaValue,
+                dir,
+                dir.length,
+                initTab,
+                actualIndex,
+                setActualIndex,
+                setInitTab
+            );
+        } else if (event.key === 'Backspace' || event.key === 'Delete') {
+            if (textareaValue.length <= textareaLenght) {
+                event.preventDefault();
+            } 
         }
     }
 
@@ -122,11 +153,10 @@ export default function Terminal() {
             <ServerMessage />
             <ClientOldMessage message={oldMessage} />
             <ClientMessage 
-                message={message} 
+                message={message}
                 handleChange={handleChange} 
-                inputValue={inputValue} 
-                detectEnter={detectEnter}
-            />
+                textareaValue={textareaValue} 
+                detectKey={detectKey}/>
         </div>
     )
 }

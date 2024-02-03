@@ -1,0 +1,13 @@
+.client-textarea {
+  background-color: blueviolet;
+  /* background: transparent; */
+  border: none;
+  color: #abb2bf;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1em;
+  outline: none;
+  resize: none;
+}
+
+.client-textarea-box {
+}

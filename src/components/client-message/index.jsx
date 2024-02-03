@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import './index.css';
-import Typewriter from "../typewriter";
-import ClientInput from "../client-input";
+import ClientTextarea from "../client-textarea";
 
-
-export default function ClientMessage({ message, handleChange, inputValue, detectEnter }) {
+export default function ClientMessage({ message, handleChange, textareaValue, detectKey}) {
     
     return(
     <div className="message-client-box">
-            <p className="message-client" >{message}</p>
-        <ClientInput handleChange={handleChange} inputValue={inputValue} detectEnter={detectEnter}/>
+            <p className="message-client">{message}</p>
+            <ClientTextarea handleChange={handleChange} textareaValue={textareaValue} detectKey={detectKey}/>
     </div>
     )
 }
