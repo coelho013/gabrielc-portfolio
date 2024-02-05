@@ -10,8 +10,8 @@ export default function Terminal() {
     const [message, setMessage] = useState('C:\\>');
     const [oldPath, setOldPath] = useState('');
     const [oldMessage, setOldMessage] = useState('');
-    const [textareaValue, setTextareaValue] = useState('C:\\>');
-    const [textareaLenght, setTextareaLenght] = useState(5);
+    const [textareaValue, setTextareaValue] = useState('');
+    const [textareaLenght, setTextareaLenght] = useState(4);
     const [actualIndex, setActualIndex] = useState(0);
     const [initTab, setInitTab] = useState(0);
     const [originaltextareaValue, setOriginaltextareaValue] = useState('');
@@ -102,6 +102,7 @@ export default function Terminal() {
 
 
     const handleChange = (value) => {
+        console.log(value.target.value, 'chegou no handlechange')
         setTextareaValue(value.target.value);
         setOriginaltextareaValue(value.target.value);
         if (value.target.value.endsWith('')) {
@@ -141,10 +142,6 @@ export default function Terminal() {
                 setActualIndex,
                 setInitTab
             );
-        } else if (event.key === 'Backspace' || event.key === 'Delete') {
-            if (textareaValue.length <= textareaLenght) {
-                event.preventDefault();
-            } 
         }
     }
 
