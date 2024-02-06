@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './index.css'
 import ServerMessage from "../../components/server-initial-message";
 import ClientMessage from "../../components/client-message";
@@ -10,12 +10,14 @@ export default function Terminal() {
     const [message, setMessage] = useState('C:\\>');
     const [oldPath, setOldPath] = useState('');
     const [oldMessage, setOldMessage] = useState('');
-    const [textareaValue, setTextareaValue] = useState('');
-    const [textareaLenght, setTextareaLenght] = useState(4);
+    const [textareaValue, setTextareaValue] = useState('C:\\>');
+    const [textareaLength, setTextareaLength] = useState(4);
     const [actualIndex, setActualIndex] = useState(0);
     const [initTab, setInitTab] = useState(0);
     const [originaltextareaValue, setOriginaltextareaValue] = useState('');
     const [oldDir, setOldDir] = useState([])
+    const [selectionStartActual, setSelectionStartActual] = useState(0);
+    const [selectionEndActual, setSelectionEndActual] = useState(0);
     const [dir, setDir] = useState(
         [
             {
@@ -100,13 +102,18 @@ export default function Terminal() {
         ]
     )
 
+    const handleClick = (event) => {
+        setSelectionStartActual(event.target.selectionStart);
+        setSelectionEndActual(event.target.selectionEnd);
+        console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd);
+    }
 
-    const handleChange = (value) => {
-        console.log(value.target.value, 'chegou no handlechange')
-        setTextareaValue(value.target.value);
-        setOriginaltextareaValue(value.target.value);
-        if (value.target.value.endsWith('')) {
-            setInitTab(0);
+    const handleChange = (v) => {
+        if (v.target.value === '') {
+            setTextareaValue('C:\\>')
+        } else {
+            setTextareaValue(v.target.value);
+            setOriginaltextareaValue(v.target.value);
         }
     }
 
@@ -142,6 +149,24 @@ export default function Terminal() {
                 setActualIndex,
                 setInitTab
             );
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'Home' || event.key === 'End') {
+            setSelectionStartActual(event.target.selectionStart);
+            setSelectionEndActual(event.target.selectionEnd);
+            console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd)
+        } else if (event.key === 'Delete' || event.key === 'Backspace') {
+            setSelectionStartActual(event.target.selectionStart);
+            setSelectionEndActual(event.target.selectionEnd);
+            console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd);
+            if (selectionStartActual <= textareaLength || selectionEndActual <= textareaLength) {
+                event.preventDefault();
+            }
+        } else {
+            if (selectionStartActual < textareaLength || selectionEndActual < textareaLength) {
+                event.preventDefault();
+            }
+            setSelectionStartActual(event.target.selectionStart);
+            setSelectionEndActual(event.target.selectionEnd);
+            console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd);
         }
     }
 
@@ -152,8 +177,10 @@ export default function Terminal() {
             <ClientMessage 
                 message={message}
                 handleChange={handleChange} 
+                handleClick={handleClick}
                 textareaValue={textareaValue} 
-                detectKey={detectKey}/>
+                detectKey={detectKey}
+            />
         </div>
     )
 }

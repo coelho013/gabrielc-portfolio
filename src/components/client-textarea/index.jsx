@@ -1,6 +1,6 @@
 import './index.css';
 
-export default function ClientTextarea({textareaValue, handleChange, detectKey}) {
+export default function ClientTextarea({textareaValue, handleChange, detectKey, handleClick}) {
     return (
         <div className="client-textarea-box">
             <textarea 
@@ -8,6 +8,7 @@ export default function ClientTextarea({textareaValue, handleChange, detectKey})
                 value={textareaValue}
                 onChange={handleChange}
                 onKeyDown={detectKey}
+                onClick={handleClick}
             />
         </div>
     )
