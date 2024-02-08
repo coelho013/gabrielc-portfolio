@@ -1,11 +1,11 @@
-const handleOldMessage = (response, setOldMessage, message, inputValue) => {
+const handleOldMessage = (response, setOldMessage, textareaValue) => {
     if (response === '') {
         setOldMessage((prevOldMessage) =>
-        prevOldMessage === '' ? message + inputValue : prevOldMessage + '\n\n' + message + inputValue
+        prevOldMessage === '' ? textareaValue  : prevOldMessage + '\n\n' + textareaValue 
         ); 
     } else {
         setOldMessage((prevOldMessage) =>
-        prevOldMessage === '' ? message + inputValue + '\n' + response : prevOldMessage + '\n\n' + message + inputValue + '\n' + response
+        prevOldMessage === '' ? textareaValue  + '\n' + response : prevOldMessage + '\n\n' + textareaValue + '\n' + response
         );
     }  
 }

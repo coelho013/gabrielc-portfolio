@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import './index.css'
-import Typewriter from "../typewriter";
 
 export default function ClientOldMessage({ message }) {
     const formattedMessage = message.replace(/ /g, '\u00a0')

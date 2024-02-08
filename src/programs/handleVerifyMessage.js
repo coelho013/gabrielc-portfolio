@@ -1,38 +1,55 @@
 import handleOldMessage from "./handleOldMessage";
 import handleVerifyDir from "./handleVerifyDir";
 
-const handleVerifyMessage = (inputValue, setOldMessage, help, setDir, oldDir, setMessage, oldPath, dir, setOldDir, setOldPath, message, setInputValue, setOriginalInputValue, setInitTab, setActualIndex) => {
+const handleVerifyMessage = (
+    setOldMessage,
+    help,
+    setDir,
+    oldDir,
+    oldPath,
+    dir,
+    setOldDir,
+    setOldPath,
+    setOriginaltextareaValue,
+    setInitTab,
+    setActualIndex,
+    textareaValue,
+    setTextareaValue,
+    textareaLength,
+    setTextareaLength
+) => {
     setActualIndex(0);
     setInitTab(0);
-    setOriginalInputValue('');
+    setOriginaltextareaValue('');
     
-    const inputValueClear = inputValue.toLowerCase().trim();
+    const textareaClear = textareaValue.toLowerCase().trim().substring(textareaLength);
+    const newTextarea = textareaValue.substring(textareaLength);
 
-    if (inputValueClear === 'cls') {
+    if (textareaClear === 'cls') {
         setOldMessage('');
-    }else if (inputValueClear === 'help') {
+    }else if (textareaClear === 'help') {
         const helpResponse = help.map(element => {
             const quantitySpaces = (10 - element.name.length)
             const spaces = ' '.repeat(quantitySpaces);
             return `${element.name}${spaces}${element.description}`
         }).join('\n')
-        handleOldMessage(helpResponse, setOldMessage, message, inputValue);
-    }else if (inputValueClear === 'dir') {
+        handleOldMessage(helpResponse, setOldMessage, textareaValue);
+    }else if (textareaClear === 'dir') {
         const dirResponse = dir.map(element => {
             return `01/01/2024 00:00 PM    ${element.type}          ${element.name}`
         }).join('\n');
-        handleOldMessage(dirResponse, setOldMessage, message, inputValue);
-    }else if (inputValueClear === 'cd..') {
+        handleOldMessage(dirResponse, setOldMessage, textareaValue, textareaValue);
+    }else if (textareaClear === 'cd..') {
         setDir(oldDir);
-        setMessage(oldPath);
-        handleOldMessage('', setOldMessage, message, inputValue);
-    }else if (inputValueClear.startsWith('cd')) {
-        handleVerifyDir(inputValueClear, dir, setOldDir, setOldPath, setDir, setMessage, message);
-        handleOldMessage('', setOldMessage, message, inputValue);
+        setTextareaValue(oldPath);
+        handleOldMessage('', setOldMessage, textareaValue);
+    }else if (textareaClear.startsWith('cd')) {
+        handleVerifyDir(textareaClear, dir, setOldDir, setOldPath, setDir, setTextareaValue, textareaValue);
+        handleOldMessage('', setOldMessage, textareaValue);
     }else {
-        handleOldMessage('', setOldMessage, message, inputValue);
+        handleOldMessage('', setOldMessage, textareaValue);
     }
-    setInputValue('');
+    setTextareaValue('');
 }
 
 export default handleVerifyMessage;

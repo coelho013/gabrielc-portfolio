@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import './index.css'
 import ServerMessage from "../../components/server-initial-message";
-import ClientMessage from "../../components/client-message";
 import ClientOldMessage from "../../components/client-old-message";
 import handleVerifyMessage from "../../programs/handleVerifyMessage";
 import handleTabAction from "../../programs/handleTabAction";
+import ClientTextarea from "../../components/client-textarea";
 
 export default function Terminal() {
-    const [message, setMessage] = useState('C:\\>');
     const [oldPath, setOldPath] = useState('');
     const [oldMessage, setOldMessage] = useState('');
     const [textareaValue, setTextareaValue] = useState('C:\\>');
@@ -120,22 +119,23 @@ export default function Terminal() {
     const detectKey = (event) => {
         if (event.key === 'Enter') {
             handleVerifyMessage(
-                textareaValue,
                 setOldMessage,
                 help,
                 setDir,
                 oldDir,
-                setMessage,
                 oldPath,
                 dir,
                 setOldDir,
                 setOldPath,
-                message,
-                setTextareaValue,
                 setOriginaltextareaValue,
                 setInitTab,
-                setActualIndex
+                setActualIndex,
+                textareaValue,
+                setTextareaValue,
+                textareaLength,
+                setTextareaLength
             );
+            setTextareaValue('C:\\>');
         } else if (event.key === 'Tab') {
             event.preventDefault();
             handleTabAction(
@@ -149,7 +149,11 @@ export default function Terminal() {
                 setActualIndex,
                 setInitTab
             );
-        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'Home' || event.key === 'End') {
+        } else if (event.key === 'Home') {
+            setSelectionStartActual(0);
+            setSelectionEndActual(0);
+            console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd)
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'End') {
             setSelectionStartActual(event.target.selectionStart);
             setSelectionEndActual(event.target.selectionEnd);
             console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd)
@@ -157,16 +161,16 @@ export default function Terminal() {
             setSelectionStartActual(event.target.selectionStart);
             setSelectionEndActual(event.target.selectionEnd);
             console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd);
-            if (selectionStartActual <= textareaLength || selectionEndActual <= textareaLength) {
+            if (event.target.selectionStart <= textareaLength || event.target.selectionEnd <= textareaLength) {
                 event.preventDefault();
             }
         } else {
-            if (selectionStartActual < textareaLength || selectionEndActual < textareaLength) {
-                event.preventDefault();
-            }
             setSelectionStartActual(event.target.selectionStart);
             setSelectionEndActual(event.target.selectionEnd);
             console.log('start: ',event.target.selectionStart,', ','end: ', event.target.selectionEnd);
+                // if (selectionStartActual < textareaLength || selectionEndActual < textareaLength) {
+                //     event.preventDefault();
+                // }
         }
     }
 
@@ -174,12 +178,11 @@ export default function Terminal() {
         <div className='container'>
             <ServerMessage />
             <ClientOldMessage message={oldMessage} />
-            <ClientMessage 
-                message={message}
+            <ClientTextarea 
                 handleChange={handleChange} 
                 handleClick={handleClick}
                 textareaValue={textareaValue} 
-                detectKey={detectKey}
+                detectKey={detectKey} 
             />
         </div>
     )

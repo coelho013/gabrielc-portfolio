@@ -1,12 +1,15 @@
 .client-textarea {
-  background-color: blueviolet;
-  /* background: transparent; */
+  background: transparent;
   border: none;
   color: #abb2bf;
   font-family: 'Courier New', Courier, monospace;
   font-size: 1em;
   outline: none;
   resize: none;
+  margin-left: 10px;
+  margin-top: 2px;
+  padding: 0;
+  width: 80%;
 }
 
 .client-textarea-box {

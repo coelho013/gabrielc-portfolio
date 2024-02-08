@@ -1,4 +1,4 @@
-const handleVerifyDir = (value, dir, setOldDir, setOldPath, setDir, setMessage, message) => {
+const handleVerifyDir = (value, dir, setOldDir, setOldPath, setDir, setTextareaValue, textareaValue) => {
     const newValue = value.replace('cd', '').trim();
 
     const matchingElement = dir.find(element => newValue === element.name);
@@ -7,8 +7,8 @@ const handleVerifyDir = (value, dir, setOldDir, setOldPath, setDir, setMessage, 
     
     if (matchingElement) {
         if (matchingElement.type === '<DIR>') {
-            setOldPath(message);
-            setMessage((prevMessage) => prevMessage === 'C:\\>' ? 'C:\\' + newValue + '>' :  'C:\\' + prevMessage + '\\' + newValue + '>');
+            setOldPath(textareaValue);
+            setTextareaValue((prevMessage) => prevMessage === 'C:\\>' ? 'C:\\' + newValue + '>' :  'C:\\' + prevMessage + '\\' + newValue + '>');
             setOldDir(dir);
             setDir(matchingElement.subdirectory)
         }
